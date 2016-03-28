@@ -15,8 +15,20 @@ function insertRow(data) {
         return;
     }
 
-    var fields = '';
-    var values = '';
+    var request = new sql.Request(sqlConnection);
+    if (data.time) {
+        data.time = data.time.getUTCFullYear() + '-' +
+            ('00' + (data.time.getUTCMonth() + 1)).slice(-2) + '-' +
+            ('00' + data.time.getUTCDate()).slice(-2) + ' ' +
+            ('00' + data.time.getUTCHours()).slice(-2) + ':' +
+            ('00' + data.time.getUTCMinutes()).slice(-2) + ':' +
+            ('00' + data.time.getUTCSeconds()).slice(-2) + ':' +
+            ('00' + data.time.getUTCMilliseconds()).slice(-3);   
+    }
+
+    var fields = 'time';
+    var values = '@time';
+    request.input('time', data.time);
 
     for (var key in data)
         if ((!(key === 'msg')) && (!(key === 'v')) && (!(key === 'time'))) {
@@ -26,20 +38,15 @@ function insertRow(data) {
                 var _value = data[key];
             }
 
-            if (fields == '') {
-                fields = 'time,' + key + '';
-                values = "GetDate(), '" + _value + "'";
-            } else {
-                fields = fields + "," + key;
-                values = values + ",'" + _value + "'";
-            }
+            fields += ',' + key;
+            values += ',@' + key;
+
+            request.input(key, _value);
         }
 
-    var request = new sql.Request(sqlConnection);
     var query = 'INSERT INTO ' + tableName + ' (' + fields + ') VALUES (' + values + ')';
-    request.query(query, function(err, recordset) {
+    request.query(query, function(err, recordset) {        
         if (err) {
-            console.log(query);
             console.dir(err)
             return;
         };
@@ -88,6 +95,7 @@ var consoleStream = function(config) {
      */
     this.write = function(data) {
         if (data) {
+            data.levelID = data.level;
             data.level = this.getLoggingLevelString(data.level);
             insertRow(data);
         }

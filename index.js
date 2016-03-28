@@ -7,6 +7,7 @@ var sql = require('mssql');
 var sqlConnection = {};
 var preConnectBuffer = [];
 var isConnected = false;
+var tableName = '';
 
 function insertRow(data) {
     if (!isConnected) {
@@ -35,7 +36,7 @@ function insertRow(data) {
         }
 
     var request = new sql.Request(sqlConnection);
-    var query = 'INSERT INTO Node_Log (' + fields + ') VALUES (' + values + ')';
+    var query = 'INSERT INTO ' + tableName + ' (' + fields + ') VALUES (' + values + ')';
     request.query(query, function(err, recordset) {
         if (err) {
             console.log(query);
@@ -97,7 +98,10 @@ var consoleStream = function(config) {
 util.inherits(consoleStream, Stream);
 
 var createStream = function(config) {
-    sqlConnection = new sql.Connection(config, function(err) {        
+    sqlConnection = new sql.Connection(config, function(err) {
+
+        tableName = config.table;
+
         if (err) console.dir(err);
         else {
             isConnected = true;

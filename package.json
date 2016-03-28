@@ -1,0 +1,29 @@
+{
+  "name": "bunyan-mssql-stream",
+  "version": "0.1.0",
+  "description": "bunyan ms sql logging stream",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vaelek/bunyan-mssql-stream.git"
+  },
+  "keywords": [
+    "bunyan",
+    "stream",
+    "mssql"
+  ],
+  "author": "jim@vaelek.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vaelek/bunyan-mssql-stream/issues"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "mssql": "^3.1.2",
+    "stream": "0.0.2",
+    "util": "^0.10.3"
+  }
+}

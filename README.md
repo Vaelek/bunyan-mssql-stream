@@ -42,3 +42,19 @@ logger.info( { message: 'hello world', source: "MySampleFunction" } );
 ```
 The above example will log all INFO messages to the SQL table defined in log_config.table. 
 Along with the default fields, "**hello world**" will be inserted into a field named **message**, and "**MySampleFunction**" into a field named **source**. Any fields used must already exist on your table. Do not use a field named **msg**!
+
+If you pass in an object, it will be automatically stringified and written as JSON text.
+For example
+```
+logger.info( { message: {MyVar1: 'Value 1', MyVar2: 'Value 2'} } );
+```
+and
+```
+var myObject = {
+    MyVar1: 'Value 1',
+    MyVar2: 'Value 2'
+};
+
+logger.info({ message: myObject });
+```
+will both log the text ```{ MyVar1: 'Value 1', MyVar2: 'Value 2' }``` to the **message** field.

@@ -17,7 +17,7 @@ Any objects passed to the logger will be inserted into fields of the same name. 
 ```npm install bunyan-mssql-stream```
 
 ### Sample Usage
-```
+```js
 var bunyan = require('bunyan');
 var mssqlStream = require('bunyan-mssql-stream');
 
@@ -47,11 +47,11 @@ Along with the default fields, "**hello world**" will be inserted into a field n
 
 If you pass in an object, it will be automatically stringified and written as JSON text.
 For example
-```
+```js
 logger.info( { message: {MyVar1: 'Value 1', MyVar2: 'Value 2'} } );
 ```
 and
-```
+```js
 var myObject = {
     MyVar1: 'Value 1',
     MyVar2: 'Value 2'
